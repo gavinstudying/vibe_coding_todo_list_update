@@ -1,57 +1,101 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple To-Do List</title>
-    <!-- Use Tailwind via CDN for zero-setup execution -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        indigo: {
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
+                        neon: {
+                            blue: '#0ff',
+                            green: '#0f0',
+                            orange: '#f90'
+                        },
+                        dark: {
+                            bg: '#121212',
+                            panel: '#1e1e1e',
+                            border: '#333333'
                         }
+                    },
+                    boxShadow: {
+                        'neon-blue': '0 0 5px theme("colors.neon.blue"), 0 0 20px theme("colors.neon.blue")',
+                        'neon-green': '0 0 5px theme("colors.neon.green"), 0 0 20px theme("colors.neon.green")',
+                        'neon-orange': '0 0 5px theme("colors.neon.orange"), 0 0 20px theme("colors.neon.orange")',
                     }
                 }
             }
         }
     </script>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for Modern Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-slate-50 min-h-screen font-['Inter'] flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 sm:p-8 flex flex-col min-h-[500px] border border-slate-100">
-        <h1 class="text-2xl sm:text-3xl font-semibold text-slate-800 mb-6 text-center tracking-tight">To-Do List</h1>
-        
-        <div class="flex gap-2 mb-6">
-            <input type="text" id="taskInput" placeholder="Add a new task..." 
-                class="flex-1 rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm placeholder:text-slate-400">
-            <button id="addBtn" 
-                class="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-3 sm:px-6 font-medium text-sm transition-all shadow-md hover:shadow-lg active:scale-95 flex items-center gap-2">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                <span class="hidden sm:inline">Add</span>
+
+<body
+    class="bg-dark-bg min-h-screen font-['Roboto_Mono'] flex items-center justify-center p-4 text-gray-300 selection:bg-neon-blue selection:text-dark-bg">
+    <div
+        class="bg-dark-panel rounded-sm shadow-2xl w-full max-w-lg p-6 sm:p-8 flex flex-col min-h-[600px] border border-dark-border relative overflow-hidden">
+        <!-- Tech Industrial decorative lines -->
+        <div
+            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-blue via-neon-green to-neon-blue opacity-80">
+        </div>
+
+        <h1
+            class="text-2xl sm:text-3xl font-bold text-white mb-6 text-center tracking-widest uppercase flex items-center justify-center gap-3">
+            <span class="w-2 h-2 bg-neon-blue rounded-sm animate-pulse shadow-neon-blue"></span>
+            TODO_LIST
+        </h1>
+
+        <div class="flex flex-col gap-3 mb-6">
+            <div class="flex gap-2">
+                <input type="text" id="taskInput" placeholder="> Initialize new task..."
+                    class="flex-1 rounded-sm bg-[#121212] border border-dark-border px-4 py-3 text-sm focus:outline-none focus:border-neon-blue focus:shadow-neon-blue transition-all text-neon-blue placeholder:text-gray-600">
+                <input type="date" id="taskDate" title="Task Date"
+                    class="w-36 rounded-sm bg-[#121212] border border-dark-border px-3 py-3 text-sm focus:outline-none focus:border-neon-blue focus:shadow-neon-blue transition-all text-gray-300">
+            </div>
+            <button id="addBtn"
+                class="w-full bg-transparent border border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-dark-bg rounded-sm px-4 py-3 font-bold text-sm transition-all shadow-[0_0_10px_rgba(0,255,255,0.2)] hover:shadow-neon-blue active:scale-[0.98] flex items-center justify-center gap-2 uppercase tracking-wider">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="square">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Execute Add</span>
             </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto custom-scrollbar pr-1 -mr-1">
+        <!-- Filter Tabs -->
+        <div class="flex gap-2 mb-4 border-b border-dark-border pb-2" id="filterTabs">
+            <button
+                class="filter-btn active flex-1 py-2 text-xs uppercase font-bold text-neon-blue border-b-2 border-neon-blue shadow-[0_4px_10px_-4px_rgba(0,255,255,0.5)] transition-all"
+                data-filter="all">All</button>
+            <button
+                class="filter-btn flex-1 py-2 text-xs uppercase font-bold text-gray-500 border-b-2 border-transparent hover:text-gray-300 transition-all"
+                data-filter="active">Active</button>
+            <button
+                class="filter-btn flex-1 py-2 text-xs uppercase font-bold text-gray-500 border-b-2 border-transparent hover:text-gray-300 transition-all"
+                data-filter="completed">Completed</button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 -mr-2">
             <ul id="taskList" class="flex flex-col gap-3">
                 <!-- Tasks will be injected here -->
             </ul>
         </div>
-        
-        <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400 text-center flex justify-between items-center">
-            <span id="taskCount" class="font-medium">0 tasks</span>
-            <span class="text-[10px] text-slate-300">Antigravity Demo</span>
+
+        <div
+            class="mt-4 pt-4 border-t border-dark-border text-xs text-gray-500 flex justify-between items-center font-mono">
+            <span id="taskCount" class="font-bold text-neon-blue">0 tasks</span>
+            <span class="opacity-50">v2.0.0.tech-ind</span>
         </div>
     </div>
 
-    <!-- Script at the end so DOM is loaded -->
     <script src="script.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do List</title>
+    <!-- Use Tailwind via CDN for zero-setup execution -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        indigo: {
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen font-['Inter'] flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 sm:p-8 flex flex-col min-h-[500px] border border-slate-100">
+        <h1 class="text-2xl sm:text-3xl font-semibold text-slate-800 mb-6 text-center tracking-tight">To-Do List</h1>
+        
+        <div class="flex gap-2 mb-6">
+            <input type="text" id="taskInput" placeholder="Add a new task..." 
+                class="flex-1 rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-sm placeholder:text-slate-400">
+            <button id="addBtn" 
+                class="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-3 sm:px-6 font-medium text-sm transition-all shadow-md hover:shadow-lg active:scale-95 flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span class="hidden sm:inline">Add</span>
+            </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar pr-1 -mr-1">
+            <ul id="taskList" class="flex flex-col gap-3">
+                <!-- Tasks will be injected here -->
+            </ul>
+        </div>
+        
+        <div class="mt-4 pt-4 border-t border-slate-100 text-xs text-slate-400 text-center flex justify-between items-center">
+            <span id="taskCount" class="font-medium">0 tasks</span>
+            <span class="text-[10px] text-slate-300">Antigravity Demo</span>
+        </div>
+    </div>
+
+    <!-- Script at the end so DOM is loaded -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" width="100%" height="auto" style="background-color: #0d1117; font-family: monospace;">
+    
+    <!-- Marker Definitions -->
+    <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 Z" fill="#00e5ff" opacity="0.8" />
+        </marker>
+    </defs>
+    
+    <!-- Background Layer -->
+    <rect width="100%" height="100%" fill="#0d1117"/>
+
+    <!-- ========================================== -->
+    <!-- PATHS (Data & Control Flow)                -->
+    <!-- ========================================== -->
+
+    <!-- Load: Storage -> State -->
+    <path d="M 240 200 L 293 200" fill="none" stroke="#00e5ff" stroke-width="2" marker-end="url(#arrow)" opacity="0.6"/>
+    <!-- Save: State -> Storage -->
+    <path d="M 300 240 L 247 240" fill="none" stroke="#00e5ff" stroke-width="2" marker-end="url(#arrow)" opacity="0.6"/>
+    <!-- Boot: Init -> State -->
+    <path d="M 400 115 L 400 178" fill="none" stroke="#00e5ff" stroke-width="2" marker-end="url(#arrow)" opacity="0.6"/>
+    <!-- Input Trigger: Events -> State -->
+    <path d="M 560 220 L 507 220" fill="none" stroke="#00e5ff" stroke-width="2" marker-end="url(#arrow)" opacity="0.6"/>
+    <!-- Render Trigger: State -> Render -->
+    <path d="M 400 255 L 400 338" fill="none" stroke="#00e5ff" stroke-width="2" marker-end="url(#arrow)" opacity="0.6"/>
+    <!-- Sub-render: Render -> Footer -->
+    <path d="M 300 380 L 207 380" fill="none" stroke="#00e5ff" stroke-width="2" marker-end="url(#arrow)" opacity="0.6"/>
+    
+    <!-- Dynamic Binding: Render -> Events (Dashed Curve) -->
+    <path d="M 500 380 Q 660 380 660 262" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrow)" opacity="0.6"/>
+    
+    <!-- Static Binding: Init -> Events (Dashed Curve) -->
+    <path d="M 500 80 Q 660 80 660 178" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrow)" opacity="0.6"/>
+
+    <!-- ========================================== -->
+    <!-- PATH LABELS                                -->
+    <!-- ========================================== -->
+    <text x="268" y="193" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.9">JSON.parse()</text>
+    <text x="268" y="255" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.9">saveTasks()</text>
+    
+    <text x="408" y="150" fill="#00e5ff" font-size="12" text-anchor="start" opacity="0.9">Init Variable</text>
+    <text x="530" y="213" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.9">Mutate Data</text>
+    <text x="408" y="300" fill="#00e5ff" font-size="12" text-anchor="start" opacity="0.9">Trigger Rerender</text>
+    <text x="250" y="373" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.9">Update</text>
+
+    <!-- Curve Label: Render to Events -->
+    <text x="650" y="325" fill="#00e5ff" font-size="12" text-anchor="end" opacity="0.9">attachEventListeners()</text>
+    <text x="650" y="340" fill="#00e5ff" font-size="11" text-anchor="end" opacity="0.6">bind dynamically injected DOM</text>
+
+    <!-- Curve Label: Init to Events -->
+    <text x="580" y="65" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.9">Static Bindings</text>
+    <text x="580" y="80" fill="#00e5ff" font-size="11" text-anchor="middle" opacity="0.6">(Tabs, Form Init)</text>
+
+    <!-- ========================================== -->
+    <!-- NODES                                      -->
+    <!-- ========================================== -->
+
+    <!-- NODE: App Boot Sequence -->
+    <g transform="translate(300, 45)">
+        <rect width="200" height="70" rx="6" ry="6" fill="#00e5ff" fill-opacity="0.08" stroke="#00e5ff" stroke-width="1.5" />
+        <text x="100" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">[ Boot Sequence ]</text>
+        <text x="100" y="44" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">DOMContentLoaded</text>
+        <text x="100" y="60" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">Start App Loop</text>
+    </g>
+
+    <!-- NODE: Storage Module -->
+    <g transform="translate(40, 185)">
+        <rect width="200" height="70" rx="6" ry="6" fill="#00e5ff" fill-opacity="0.05" stroke="#00e5ff" stroke-width="1.5" stroke-dasharray="2 2" />
+        <text x="100" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">[ External Storage ]</text>
+        <text x="100" y="44" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">Browser LocalStorage</text>
+        <text x="100" y="60" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">Key: 'todo_tasks'</text>
+    </g>
+
+    <!-- NODE: State Manager -->
+    <g transform="translate(300, 185)">
+        <rect width="200" height="70" rx="6" ry="6" fill="#00e5ff" fill-opacity="0.08" stroke="#00e5ff" stroke-width="1.5" />
+        <text x="100" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">[ State Logic ]</text>
+        <text x="100" y="44" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">let tasks = [...]</text>
+        <text x="100" y="60" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">currentFilter (Tabs)</text>
+    </g>
+
+    <!-- NODE: Event Controllers -->
+    <g transform="translate(560, 185)">
+        <rect width="200" height="70" rx="6" ry="6" fill="#00e5ff" fill-opacity="0.08" stroke="#00e5ff" stroke-width="1.5" />
+        <text x="100" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">[ Event Handlers ]</text>
+        <text x="100" y="44" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">addTask() &amp; Date Picker</text>
+        <text x="100" y="60" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">Tab Switch / Check / Del</text>
+    </g>
+
+    <!-- NODE: UI Renderer -->
+    <g transform="translate(300, 345)">
+        <rect width="200" height="70" rx="6" ry="6" fill="#00e5ff" fill-opacity="0.08" stroke="#00e5ff" stroke-width="1.5" />
+        <text x="100" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">[ UI Renderer ]</text>
+        <text x="100" y="44" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">renderTasks()</text>
+        <text x="100" y="60" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">Filter View &amp; Build DOM</text>
+    </g>
+
+    <!-- NODE: Stats Updater -->
+    <g transform="translate(40, 345)">
+        <rect width="160" height="70" rx="6" ry="6" fill="#00e5ff" fill-opacity="0.08" stroke="#00e5ff" stroke-width="1.5" />
+        <text x="80" y="24" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">[ Info Footer ]</text>
+        <text x="80" y="44" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">updateTaskCount()</text>
+        <text x="80" y="60" fill="#00e5ff" font-size="12" text-anchor="middle" opacity="0.8">Sync Count Stats</text>
+    </g>
+</svg>
